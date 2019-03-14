@@ -18,6 +18,18 @@ router.get('/thankyou', function(req, res, next) {
 });
 
 
+router.get('/steps-cct', function(req, res, next) {
+  res.render('stepcct');
+});
+
+
+router.get('/steps-native', function(req, res, next) {
+  res.render('stepnative');
+});
+
+
+
+
 
 var CONFIG =  {
 		"CLIENT_ID" :"Aex8II3lB3doTVQ01zNkGJ95HFjlobuYPseiFOhShjiJ6sGnZjvfgxicx0quXPbhDkmcJ4kGOeGEuh1p",

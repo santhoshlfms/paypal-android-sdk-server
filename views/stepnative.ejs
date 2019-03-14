@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Interation Steps</title>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+      <style>
+          .img-max {
+              width: 400px;
+          }
+      </style>
+   </head>
+   <body>
+      <h2 class="text-center text-muted py-3">Native XO SDK Integration Steps</h2>
+  
+      <hr>
+      <h4 class="text-center text-muted py-3">Merchant wants to use only <code>Native ui {popup bridge*}</code></h4>
+        
+      <div class="container py-2 mt-4 mb-4">
+         <!-- timeline item 1 -->
+         <div class="row">
+            <!-- timeline item 1 left dot -->
+            <div class="col-auto text-center flex-column d-none d-sm-flex">
+               <div class="row h-50">
+                  <div class="col">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+               <h5 class="m-2">
+                  <span class="badge badge-pill bg-light border">&nbsp;</span>
+               </h5>
+               <div class="row h-50">
+                  <div class="col border-right">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+            </div>
+            <!-- timeline item 1 event content -->
+            <div class="col py-2">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="float-right text-muted">Step 1</div>
+                     <h4 class="card-title text-muted">Setting up SDK</h4>
+                     <p class="card-text">In android app root <code>build.gradle</code> add the following dependencies</p>
+                     <div>
+                         <code>
+                                allprojects {
+                                    repositories {
+                                        google()
+                                        jcenter()
+                                        maven { url "https://github.com/syrjs/maven/raw/master"}
+                                        maven { url "https://github.com/paypal/paypalcheckout-android/raw/nativeSDK"}
+                                    }
+                                }
+                         </code>
+                    </div>
+
+                    <div>
+                        <p>In app <code>build.gradle</code> add the following dependencies </p>
+                            <code>
+                                    dependencies {
+                                        implementation 'com.paypal.pyplcheckout:nativexo:3.4.5'
+                                    }
+                            </code>
+                       </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!--/row-->
+         <!-- timeline item 2 -->
+         <div class="row">
+            <div class="col-auto text-center flex-column d-none d-sm-flex">
+               <div class="row h-50">
+                  <div class="col border-right">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+               <h5 class="m-2">
+                  <span class="badge badge-pill bg-light border">&nbsp;</span>
+               </h5>
+               <div class="row h-50">
+                  <div class="col border-right">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+            </div>
+            <div class="col py-2">
+               <div class="card ">
+                  <div class="card-body">
+                     <div class="float-right text-success">Step 2</div>
+                     <h4 class="card-title ">Manifest configs</h4>
+                     <p class="card-text">Add the following configs in android manifest</p>
+                     
+                     <div class="" id="t2_details">
+                        <div class="p-2 text-monospace">
+                            <textarea name="code" id="t1" cols="100" rows="10" style="border:none">
+<activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
+   <intent-filter android:autoVerify="true">
+         <action android:name="android.intent.action.VIEW" />
+         <category android:name="android.intent.category.DEFAULT" />
+         <category android:name="android.intent.category.BROWSABLE" />
+         <data
+            android:scheme="https"
+            android:host="shopping-paypal.herokuapp.com"
+            android:path="/thankyou"/>
+   </intent-filter>
+</activity>
+                            </textarea>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!--/row-->
+         <!-- timeline item 3 -->
+         <div class="row">
+            <div class="col-auto text-center flex-column d-none d-sm-flex">
+               <div class="row h-50">
+                  <div class="col border-right">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+               <h5 class="m-2">
+                  <span class="badge badge-pill bg-light border">&nbsp;</span>
+               </h5>
+               <div class="row h-50">
+                  <div class="col border-right">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+            </div>
+            <div class="col py-2">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="float-right text-muted">Step 3</div>
+                     <h4 class="card-title">SDK configs</h4>
+                     <p>In the payment activity use the below configs to invoke Native SDK</p>
+                     <div class="p-2 text-monospace">
+                           <p>final PYPLCheckoutEnvironment pyplEnvironment = PYPLCheckoutEnvironment.getInstance();</p> 
+                            <p>pyplEnvironment.setkPYPLEnvironment(Environment.SANDBOX);</p>
+                            <p>pyplEnvironment.setClientId("AX93NErgg-F0VeBQ6pNLwa2VKQdw3BnKDvBnasIe_pKoprQyz6NiSf6XS7I1Qtro-VD4GP-AJdjT0Uz4");</p>    
+                           <p>  <code> pyplEnvironment.setkPYPLRedirectURL("https://shopping-paypal.herokuapp.com/thankyou"); ---> THIS IS NEW !!</code>               </p>
+                            <p>pyplEnvironment.setkPYPLUserContext(this); </p>
+                            <p></p>
+                            <p></p>
+                            <p></p>
+
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <!--/row-->
+         <!-- timeline item 4 -->
+         <div class="row">
+            <div class="col-auto text-center flex-column d-none d-sm-flex">
+               <div class="row h-50">
+                  <div class="col border-right">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+               <h5 class="m-2">
+                  <span class="badge badge-pill bg-light border">&nbsp;</span>
+               </h5>
+               <div class="row h-50">
+                  <div class="col">&nbsp;</div>
+                  <div class="col">&nbsp;</div>
+               </div>
+            </div>
+            <div class="col py-2">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="float-right text-muted">Step 4</div>
+                     <h4 class="card-title">Webview Intecept</h4>
+                     <p>we can use webViewClient or without webViewClient </p>
+                     <p>1) Webview Client Example</p>
+                     <div class="p-2 text-monospace">
+                            <textarea name="code" id="t1" cols="100" rows="10" style="border:none">
+class SampleWebViewClient extends WebViewClient {
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        return PYPLCheckout.getInstance().shouldOverrideUrlLoading(view , url);
+    }
+
+    @Override
+    public void onPageFinished(WebView view, String url) {
+        super.onPageFinished(view, url);
+        PYPLCheckout.getInstance().loadScript(view);
+    }
+}
+                            </textarea>   
+                            <p>
+                                then in main activity 
+                            </p>
+                            <textarea name="code" id="t1" cols="100" rows="10" style="border:none">
+WebView webview = findViewById(R.id.webview);
+webview.getSettings().setJavaScriptEnabled(false);
+webview.setWebViewClient(new MainActivity.SampleWebViewClient());
+webview.loadUrl("https://shopping-paypal.herokuapp.com");
+                                </textarea>
+                                <p>2) Without Webview Client Example</p>
+                                <textarea name="code" id="t1" cols="100" rows="10" style="border:none">
+WebView webview = findViewById(R.id.webview);
+webview.getSettings().setJavaScriptEnabled(false);
+//webview.setWebViewClient(new MainActivity.SampleWebViewClient());
+webview.loadUrl("https://shopping-paypal.herokuapp.com");
+PYPLCheckout.getInstance().interceptWebView(webview, this);
+                                  </textarea>
+                      </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+                  <!-- timeline item 5 -->
+                  <div class="row">
+                        <div class="col-auto text-center flex-column d-none d-sm-flex">
+                           <div class="row h-50">
+                              <div class="col border-right">&nbsp;</div>
+                              <div class="col">&nbsp;</div>
+                           </div>
+                           <h5 class="m-2">
+                              <span class="badge badge-pill bg-light border">&nbsp;</span>
+                           </h5>
+                           <div class="row h-50">
+                              <div class="col">&nbsp;</div>
+                              <div class="col">&nbsp;</div>
+                           </div>
+                        </div>
+                        <div class="col py-2">
+                           <div class="card">
+                              <div class="card-body">
+                                 <div class="float-right text-muted">Step 5</div>
+                                 <h4 class="card-title">Native Invocation</h4>
+                               
+                                 <p>Start the experience with the checkout token.</p>
+                                 <p>PYPLCheckout.getInstance().startCheckoutWithECToken(MainActivity.this, "EC-1FP91222RL3429812");
+                                    </p> 
+                                    <p>Get the result in the below block</p>
+                                 <div class="p-2 text-monospace">
+                                        <textarea name="code" id="t1" cols="100" rows="10" style="border:none">
+pyplEnvironment.setkCheckoutDelegate(new PYPLCheckoutDelegate() {
+   @Override
+   public void completeCheckout(HashMap<String,String> returnParams) {
+      //return params will contain all the required information for the merchant to finish the transaction
+         Log.i("CheckoutFinishedWith>>", returnParams.toString());
+      //here is a sample of what return params consists
+      /**
+      {
+         from_cart=true, returnUrl=https://sampleurl.com/checkouts/?from_cart=true&key=Key&token=EC-token&PayerID=payerID&opType=payment,
+         token=EC-token,
+         key=Key,
+         PayerID=payerID,
+         opType=payment
+      }
+      **/
+
+   }
+
+   // in addition to the checkoutComplete delegate you can also provide a canceled delegate that is called when the user exits CCT amidst checkout
+   @Override
+      public void checkoutCanceled() {
+         Log.i("Checkout Canceled>>", "Checkout Canceled");
+
+      }
+});
+                                        </textarea>   
+                                        
+                                  </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+         <!--/row-->
+      </div>
+      <!--container-->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+      <script>
+         
+      </script>
+   </body>
+</html>
