@@ -7,8 +7,15 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var getRawBody = require('raw-body')
 
 var app = express();
+
+var options = {
+  inflate: true,
+  limit: '100kb',
+  type: 'application/octet-stream'
+};
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -16,6 +23,20 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(bodyParser.raw(options));
+app.use(function(req, res, next) {
+  req.rawBody = '';
+  req.setEncoding('utf8');
+
+  req.on('data', function(chunk) { 
+    req.rawBody += chunk;
+  });
+
+  req.on('end', function() {
+    next();
+  });
+});
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,7 +53,17 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-
+app.use(function (req, res, next) {
+  getRawBody(req, {
+    length: req.headers['content-length'],
+    limit: '1mb',
+    encoding: contentType.parse(req).parameters.charset
+  }, function (err, string) {
+    if (err) return next(err)
+    req.text = string
+    next()
+  })
+})
 
 
 // error handler

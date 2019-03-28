@@ -34,11 +34,13 @@ router.get('/dump-request', function(req, res, next) {
 });
 
 router.post('/dump-request', function(req, res, next) {
+ 
 
-  var data = {
+    var data = {
   	'url' : req.protocol + '://' + req.get('host') + req.originalUrl,
   	'query' : req.query,
-  	'data' : req.body
+  	'data' : req.body,
+  	'rawBody' : req.rawBody
   }	
 
   fs.appendFile('log.txt', JSON.stringify(data), function (err) {
