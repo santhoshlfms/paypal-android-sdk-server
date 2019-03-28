@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var request = require("request");
+const fs = require('fs');
 
 
 /* GET home page. */
@@ -25,6 +26,25 @@ router.get('/steps-cct', function(req, res, next) {
 
 router.get('/steps-native', function(req, res, next) {
   res.render('stepnative');
+});
+
+router.get('/dump-request', function(req, res, next) {
+    var data = fs.readFileSync('log.txt', 'utf8');
+	res.send(data)
+});
+
+router.post('/dump-request', function(req, res, next) {
+
+  var data = {
+  	'url' : req.protocol + '://' + req.get('host') + req.originalUrl,
+  	'query' : req.query,
+  	'data' : req.body
+  }	
+
+  fs.appendFile('log.txt', JSON.stringify(data), function (err) {
+	  if (err) throw err;
+	  res.send("request dumped to logs !")
+  });
 });
 
 
