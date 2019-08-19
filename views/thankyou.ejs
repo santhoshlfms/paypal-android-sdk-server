@@ -5,15 +5,35 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+  	<div id="mobile">
+  		<h1>Thanks please install icici pockets app !</h1>
+  	</div>
+
+  	<div id="web">
+  		<h1>This page is meant for mobile app. Please install icici pockets app !</h1>
+  	</div>
+
    Thanks for your order !	
    you can continue shopping by clicking <a href="https://shopping-paypal.herokuapp.com/thankyou">here</a>
 
    <h1>Shopping.com</h1>
     <div style="margin-bottom: 20px">Buy Soap Online</div>
-		 <div id="paypal-button-container"></div>
+	<div id="paypal-button-container"></div>
 		
    	<script src="https://www.paypalobjects.com/api/checkout.js"></script>
    	<script>
+   		var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+	console.log(isMobile)
+	if (isMobile) {
+	  /* your code here */
+	  alert(isMobile)
+	  document.getElementById("mobile").style.display = "block";
+	  document.getElementById("web").style.display = "none";
+
+	}else {
+	  document.getElementById("web").style.display = "block";
+	  document.getElementById("mobile").style.display = "none";
+	}
 	// Render the PayPal button
 	paypal.Button.render({
 	// Set your environment
@@ -70,6 +90,12 @@
 	    });
 	}
 	}, '#paypal-button-container');
+
+
+	// useragent 
+
+
+
 	</script>
    
   </body>
